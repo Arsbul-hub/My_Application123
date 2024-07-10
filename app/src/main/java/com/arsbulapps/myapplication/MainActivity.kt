@@ -1,5 +1,6 @@
 package com.arsbulapps.myapplication
 
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,10 +12,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.button.setOnClickListener {
-            val intent = Intent(this, SecondActivity::class.java)
-            startActivity(intent)
-        }
+        supportFragmentManager.beginTransaction()
+            .replace(binding.fragmentLayout.id, FirstFragment()).commit()
+        binding.navigation.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.navigation_home -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(binding.fragmentLayout.id, FirstFragment()).commit()
+                }
 
+                R.id.navigation_search -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(binding.fragmentLayout.id, SecondFragment()).commit()
+                }
+            }
+            true
+        }
     }
 }
